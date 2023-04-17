@@ -26,11 +26,6 @@ def main(args=None):
 
     args = parser.parse_args(args)
 
-
-
-
-
-
     os.makedirs(args.save_path, exist_ok=True)
 
     # parse files to process

@@ -8,15 +8,6 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 import argparse
 from argparse import RawTextHelpFormatter
 
-
-class SubcommandHelpFormatter(argparse.RawDescriptionHelpFormatter):
-    def _format_action(self, action):
-        parts = super(SubcommandHelpFormatter, self)._format_action(action)
-        if action.nargs == argparse.PARSER:
-            parts = "\n".join(parts.split("\n")[1:])
-        return parts
-
-
 parser = argparse.ArgumentParser(
     prog="adapt",
     description="********** ADAPT *********\n"
@@ -80,6 +71,8 @@ parent_parser.add_argument(
 )
 
 subparsers = parser.add_subparsers(dest="mode", required=True)
+
+# detect
 parser_detect = subparsers.add_parser(
     "detect",
     parents=[parent_parser],
@@ -105,6 +98,7 @@ parser_detect.add_argument(
     help="Ignore outer `border_trim` data points, a boundary can be detected between `border_trim` and `max_obs`-`border_trim` observations, by default 500",
 )
 
+# trim
 parser_trim = subparsers.add_parser(
     "trim",
     parents=[parent_parser],
@@ -117,6 +111,7 @@ parser_trim.add_argument(
     help="Trimming buffer, retain `trimming_buffer` number of DNA observation prior to the detected boundary, by default 500.",
 )
 
+# extract
 parser_extract = subparsers.add_parser(
     "extract",
     parents=[parent_parser],

@@ -15,7 +15,7 @@ from .utils import extractResults
 def extract_signal_slice_from_read(
     read: Fast5Read, start: int, stop: int, extract_buffer: int = 0,
 ):
-    """_summary_
+    """Extract a slice of signal from the raw signal attribute of a fast5 read.
 
     Parameters
     ----------
@@ -30,8 +30,8 @@ def extract_signal_slice_from_read(
 
     Returns
     -------
-    _type_
-        _description_
+    np.ndarray
+        Slice of signal
     """    
     signal = read.get_raw_data(scale=False)
     slice_start = max(0, start - extract_buffer)
@@ -46,14 +46,14 @@ def extract_adapter_from_read(read: Fast5Read, extract_buffer: int = 100,) -> ex
     Parameters
     ----------
     read : Fast5Read
-        The read to process.
+        The read to process
     extract_buffer : int, optional
         Number of observation to include pre and post detected adapter, by default 100
 
     Returns
     -------
     extractResults
-        Wrapper class containing all relevant results.
+        Wrapper class containing all relevant results
     """
     start, stop = detect_adapter_in_read(read)
     adapter_signal = extract_signal_slice_from_read(read, start, stop, extract_buffer=extract_buffer)

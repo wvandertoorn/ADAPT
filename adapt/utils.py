@@ -83,6 +83,18 @@ class processResults(
     """
     
 def detect_results_to_df(detect_results: List[processResults]) -> pd.DataFrame:
+    """Transform list of adapter detection processing results to a pandas DataFrame format. 
+
+    Parameters
+    ----------
+    detect_results : List[processResults]
+        List of adapter detection processing results, see adapt.io.process_fast5_file .
+
+    Returns
+    -------
+    pd.DataFrame
+        Dataframe of adapter detection processing results.
+    """    
     return pd.DataFrame(
         [
             (x.filepath, x.read_id, x.results.adapter_start, x.results.adapter_end)
@@ -93,6 +105,18 @@ def detect_results_to_df(detect_results: List[processResults]) -> pd.DataFrame:
 
 
 def extract_results_to_df(extract_results: List[processResults]) -> pd.DataFrame:
+    """Transform list of adapter extraction processing results to a pandas DataFrame format. 
+
+    Parameters
+    ----------
+    extract_results : List[processResults]
+        List of adapter extraction processing results, see adapt.io.process_fast5_file .
+
+    Returns
+    -------
+    pd.DataFrame
+        Dataframe of adapter extraction processing results.
+    """    
     df = pd.DataFrame(
         [
             (

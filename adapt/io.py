@@ -21,6 +21,24 @@ def process_fast5_file(
     process_fn: Callable,
     process_kwargs: dict = dict(),
 ) -> List[processResults]:
+    """Open fast5 file and apply processing function.
+
+    Parameters
+    ----------
+    fast5_filepath : str
+        Path to fast5 file to process.
+    mode : str
+        Opening mode, can be 'r' for read-only, or 'a' for modifying the file.
+    process_fn : Callable
+        Processing function to apply to the fast5 file. 
+    process_kwargs : dict, optional
+        Keyword arguments for `process_fn`, by default dict()
+
+    Returns
+    -------
+    List[processResults]
+        List of processing results.
+    """    
 
     results = []
     with get_fast5_file(fast5_filepath, mode=mode) as f5:
@@ -37,12 +55,28 @@ def copy_and_process_fast5_file(
     fast5_filepath_src: str,
     fast5_filepath_dst: str,
     process_fn: Callable,
-    mode: str = "a",
     process_kwargs: dict = dict(),
 ):
+    """First copy the fast5 file, open the new copy and apply the processing function.
 
+    Parameters
+    ----------
+    fast5_filepath_src : str
+        Path to fast5 file to process.
+    fast5_filepath_dst : str
+        Path to copy fast5 file to.
+    process_fn : Callable
+        Processing function to apply to the new fast5 copy. 
+    process_kwargs : dict, optional
+        Keyword arguments for `process_fn`, by default dict()
+
+    Returns
+    -------
+    List[processResults]
+        List of processing results.
+    """   
     shutil.copy(fast5_filepath_src, fast5_filepath_dst)
-    return process_fast5_file(fast5_filepath_dst, mode, process_fn, process_kwargs)
+    return process_fast5_file(fast5_filepath_dst, "a", process_fn, process_kwargs)
 
 def remove_reads_from_multi_fast5(multifast5_filepath: str, read_ids: List[str]) -> None:
     """Remove read entries from a multi fast5 file. 
@@ -111,19 +145,37 @@ def remove_reads_from_fast5(fast5_filepath: str, read_ids: List[str]) -> None:
 def write_results_to_csv(
     process_results: List[List[processResults]],
     outdir: str,
-    mode: str,
-    remove_from_filepath=[],
-    global_output=False,
+    adapt_mode: str,
+    remove_from_filepath: List[str] =[],
+    global_output: bool=False,
 ):
-    def _write_results_to_csv_mode_aux(mode: str):
+    """Write processing results to disk.
+
+    Parameters
+    ----------
+    process_results : List[List[processResults]]
+        Nested list of processing results. Function assumes that the outer 
+        list describes files and the inner list the file entries (reads)
+    outdir : str
+        The location to save the output csv to
+    adapt_mode : str
+        One of 'detect', 'trim' and 'extract'
+    remove_from_filepath : List[str], optional
+        List of strings to remove from absolute filepath to 
+        obtain relative filepath to `input_dir`, by default []
+    global_output : bool, optional
+        Boolean flag that indicates whether to output a csv describing all processed files instead of a csv per 
+                      file, by default False
+    """    
+    def _write_results_to_csv_mode_aux(adapt_mode: str):
         results_to_df_fn = {
             "detect": detect_results_to_df,
             "extract": extract_results_to_df,
-        }[mode]
+        }[adapt_mode]
         outname = {
             "detect": "detected_adapter_boundaries",
             "extract": "extracted_adapters",
-        }[mode]
+        }[adapt_mode]
 
         return results_to_df_fn, outname
 
@@ -154,7 +206,7 @@ def write_results_to_csv(
             os.path.join(outdir, f"{outname}{suffix}.csv"), sep=";", index=False,
         )
 
-    to_df_fn, outname = _write_results_to_csv_mode_aux(mode)
+    to_df_fn, outname = _write_results_to_csv_mode_aux(adapt_mode)
 
     results_dfs = [to_df_fn(r) for r in process_results]
 
