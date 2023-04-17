@@ -1,5 +1,5 @@
 
-# ADAPT
+# ADAPT - Adapter Detection and Processing Tool
 
 ADAPT is a software tool that detects and processes DNA adapters in dRNA-seq data. The tool offers two options for processing the adapters: it can extract the adapter signal from the read or trim the adapter signal from the read to improve data quality and increase the accuracy of downstream analyses.
 
