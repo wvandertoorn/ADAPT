@@ -1,11 +1,11 @@
 
 # ADAPT
 
-ADAPT stands for Adapter Detection and Processing Tool, it is a software tool that detects the presence of DNA adapters in dRNA-seq data, and offers two options for processing the identified adapters. First, it can extract the adapter signal from the read, allowing the researcher to analyze the adapter sequence. Second, it can trim the adapter signal from the read to improve data quality and increase the accuracy of downstream analyses.
+ADAPT is a software tool that detects and processes DNA adapters in dRNA-seq data. The tool offers two options for processing the adapters: it can extract the adapter signal from the read or trim the adapter signal from the read to improve data quality and increase the accuracy of downstream analyses.
 
 ## Installation
 
-ADAPT requires Python 3.8 to be installed.
+To install ADAPT, Python 3.8 must be installed first. Then, run the following command:
 
 ```
 git clone https://github.com/wvandertoorn/ADAPT.git
@@ -14,72 +14,118 @@ pip install ./ADAPT
 
 ## Usage
 
+You can use ADAPT by running the following command:
+
 ```
-adapt detect --input_path INPUT_PATH --save_path SAVE_PATH
-adapt trim --input_path INPUT_PATH --save_path SAVE_PATH
-adapt extract --input_path INPUT_PATH --save_path SAVE_PATH
+adapt <mode> --input_path <input_path> --save_path <save_path>
 ```
 
-Where `INPUT_PATH` contains the fast5 files to process. These can be single fast5, multi fast5 or a mix thereof. The outputs will be written to `SAVE_PATH`.
+Where `mode` can be `detect`, `trim`, or `extract`, `input_path` contains the fast5 files to process, and `save_path` specifies the location to save the output files.
 
-Although ADAPT can handle both single and multi fast5 files, we advise the user to use multi fast5 files to limit the disk I/O load on the system.
+Although ADAPT can handle both single and multi fast5 files, we recommend using multi fast5 files to limit the disk I/O load on the system.
 
 ### Optional arguments for all modes
 
+You can also use the following optional arguments for all modes:
+
 ```
---fast5_subset_txt FAST5_SUBSET_TXT
-                      Path to txt file containing entries `XYZ.fast5` (one per line)
-                      describing a subset of the fast5 files present in `--input_path`.
---fast5_subset FAST5_SUBSET [FAST5_SUBSET ...]
-                      Filenames '`XYZ.fast5` ...' describing a subset of the fast5 files 
-                      present in `--input_path`.
---j J                 Size of pool used for multiprocessing read files.
---global_output_csv   Output csv's describing all processed files, instead of a csv per 
+--fast5_subset_txt <fast5_subset_txt>
+                      Path to a txt file containing a list of fast5 file names (one per line) 
+                      describing a subset of the fast5 files present in `input_path`.
+--fast5_subset <fast5_subset> [<fast5_subset> ...]
+                      A space-separated list of fast5 file names describing a subset of the fast5 
+                      files present in `input_path`.
+--j <j>               Size of the pool used for multiprocessing read files.
+--global_output_csv   Output csv's describing all processed files instead of a csv per 
                       file. Use this option if the files you are processing are single 
                       fast5 files, rather than multi fast5 files.
 ```
 
 ### detect
 
+You can use the `detect` mode to detect adapters in the input files by running the following command:
+
 ```
-adapt detect [-h] --input_path INPUT_PATH --save_path SAVE_PATH [--fast5_subset_txt FAST5_SUBSET_TXT | --fast5_subset FAST5_SUBSET [FAST5_SUBSET ...]] [--j J] [--global_output_csv]
-                    [--max_obs MAX_OBS] [--min_obs_adapter MIN_OBS_ADAPTER] [--border_trim BORDER_TRIM]
+adapt detect --input_path <input_path> --save_path <save_path>
+```
 
+The following optional arguments can be used in the `detect` mode:
 
-detect-specific optional arguments:
-  --max_obs MAX_OBS     Look for adapter in first `max_obs` data points of the raw signal. Dafult value of 40000 taken from default params in Tombo.
-  --min_obs_adapter MIN_OBS_ADAPTER
-                        Minimal length of the adapter signal, by default 1000
-  --border_trim BORDER_TRIM
-                        Ignore outer `border_trim` data points, a boundary can be detected between `border_trim` and `max_obs`-`border_trim` observations, by default 500
+```
+--max_obs <max_obs>   Look for the adapter in the first `max_obs` data points of the raw signal.
+                      The default value is 40000, taken from default params in Tombo.
+--min_obs_adapter <min_obs_adapter>
+                      Set the minimum length of the adapter signal. The default value is 1000.
+--border_trim <border_trim>
+                      Ignore the outer `border_trim` data points. A boundary can be detected
+                      between `border_trim` and `max_obs`-`border_trim` observations.
+                      The default value is 500.
+
+```
+
+To get a full overview of the `detect` mode, run:
+
+```
+adapt detect --help
 ```
 
 ### trim
 
+You can use the `trim` mode to remove the adapter signal from the input files by running the following command:
+
 ```
-usage: adapt trim [-h] --input_path INPUT_PATH --save_path SAVE_PATH [--fast5_subset_txt FAST5_SUBSET_TXT | --fast5_subset FAST5_SUBSET [FAST5_SUBSET ...]] [--j J] [--global_output_csv]
-                  [--trimming_buffer TRIMMING_BUFFER]
+adapt trim --input_path <input_path> --save_path <save_path>
+```
 
+The following optional argument can be used in the `trim` mode:
 
-trim-specific optional arguments:
-  --trimming_buffer TRIMMING_BUFFER
-                        Trimming buffer, retain `trimming_buffer` number of DNA observation prior to the detected boundary, by default 500.
+```
+--trimming_buffer <trimming_buffer>
+                      Retain `trimming_buffer` number of DNA observation prior to the
+                      detected boundary. The default value is 500.
+```
+
+In the trim mode, the output directory will contain modified copies of the input fast5 files. Reads for which no adapter was detected are removed from the multi fast5 files, and no file is created in the case of single fast5 files.
+
+To get a full overview of the `trim` mode, run:
+
+```
+adapt trim --help
 ```
 
 ### extract
 
+The `extract` mode allows you to extract the adapter signal from the input files. To do so, run the following command:
+
 ```
-usage: adapt extract [-h] --input_path INPUT_PATH --save_path SAVE_PATH [--fast5_subset_txt FAST5_SUBSET_TXT | --fast5_subset FAST5_SUBSET [FAST5_SUBSET ...]] [--j J] [--global_output_csv] [--extraction_buffer EXTRACTION_BUFFER]
+adapt extract --input_path <input_path> --save_path <save_path>
+```
 
+The following optional argument can be used in the `extract` mode:
 
-extract-specific optional arguments:
-  --extraction_buffer EXTRACTION_BUFFER
-                        Extraction buffer, include `extraction_buffer` number of observation before and after the detected adapter signal, by default 100
+```
+--extraction_buffer <extraction_buffer>
+                      Include `extraction_buffer` number of observation before and after the detected adapter signal. The default value is 100.
+```
+
+To get a full overview of the `extract` mode, run:
+
+```
+adapt extract --help
 ```
 
 ## Outputs
 
-In all three modes ADAPT outputs detected_adapter_boundaries_[FILENAME].csv files. These files are semicolon separated.
+In all three modes ADAPT outputs a `detected_adapter_boundaries_[FILENAME].csv` file for for each input file, which is semicolon-separated. The file contains the following columns:
+
+* `rel_filepath`: the relative filepath of the fast5 file with respect to `input_path`.
+* `read_id`: the read IDs of the entries in the fast5 file.
+* `adapter_start`: the coordinate of the start of the adapter signal.
+* `adapter_end`: the coordinate of the end of the adapter signal.
+
+An entry with `adapter_start`=`adapter_end`=0 indicates that no adapter sequence was detected in the corresponding read.
+
+An example of `detected_adapter_boundaries_[FILENAME].csv`:
 
 ```{csv}
 rel_filepath;read_id;adapter_start;adapter_end
@@ -89,24 +135,30 @@ rel_filepath;read_id;adapter_start;adapter_end
 ...
 ```
 
-* `rel_filepath`: contains the filepath of the fast5 file relative to INPUT_PATH
-* `read_id`: the read_ids of the entries in the fast5 file
-* `adapter_start`: Coordinate of the start of the adapter signal
-* `adapter_end`: Coordinate of the end of the adapter signal
-
-`adapter_start`=`adapter_end`=0 indicates that no adapter sequence was detected in this read.
-
 ### trim
 
-In mode `trim`, the output directory will additionally contain copies of the input fast5 files in which the signal dataset attribute of the read is modified (adapter is trimmed off). In this case, the output directory can directly be used as the input path of the basecaller.
-Reads for which no adapter was detected are removed from the multi fast5 files, and in the case of single fast5 files, no file is created.
+In mode `trim`, the output directory contains modified copies of the input fast5 files in which the adapter signal is trimmed off. In this case, the output directory can be directly used as the input path of the basecaller. For multi fast5 files, reads for which no adapter was detected are removed. For single fast5 files, no file is created.
 
 ### extract
 
-In mode `extract`, semicolon-separated extracted_adapter_[FILENAME].csv files are created in addition.
-This file contains the extracted adapter signal per read in integer16 format and the relevant signal parameters to transform the extracted signal to pA using `raw_pA = np.array(parange / digitisation * (raw_int + offset), dtype=np.float32)`.
+In mode `extract`, semicolon-separated `extracted_adapter_[FILENAME].csv` files are created in the output directory.
 
-If no adapter was detected in a read, there is no entry for this read (read id) in this file.
+This file contains the extracted adapter signal per read in integer16 format, as well as the relevant signal parameters to transform the extracted signal to pA using `raw_pA = np.array(parange / digitisation * (raw_int + offset), dtype=np.float32)`.
+
+The file contains the following columns:
+
+* `rel_filepath`:  the relative filepath of the fast5 file with respect to `input_path`.
+* `read_id`: the read IDs of the entries in the fast5 file.
+* `extraction_buffer`:the padding used in extracting the adapter, i.e. `|adapter_signal| = (adapter_end + extraction_buffer)-(adapter_start-extraction_buffer)`.
+* `digitisation`: as reported in fast5 file. The digitisation is the number of quantisation levels in the Analog to Digital
+Converter (ADC). That is, if the ADC is 12 bit, digitisation is 4096 (2^12).
+* `range`: as reported in fast5 file. The full scale measurement range in pico amperes.
+* `offset`: as reported in fast5 file. The ADC offset error. This value is added when converting the signal to pico ampere.
+* `adapter_signal`: the extracted adapter signal in integer16 format.
+
+Reads for which no adapter was detected are excluded in this file.
+
+An example of `extracted_adapter_[FILENAME].csv` :
 
 ```{csv}
 rel_filepath;read_id;extraction_buffer;digitisation;range;offset;adapter_signal
@@ -114,18 +166,9 @@ rel_filepath;read_id;extraction_buffer;digitisation;range;offset;adapter_signal
 ...
 ```
 
-* `rel_filepath`: contains the filepath of the fast5 file relative to INPUT_PATH
-* `read_id`: the read_ids of the entries in the fast5 file
-* `extraction_buffer`: padding used in extracting the adapter, i.e. `|adapter_signal| = (adapter_end + extraction_buffer)-(adapter_start-extraction_buffer)`.
-* `digitisation`: As reported in fast5 file. The digitisation is the number of quantisation levels in the Analog to Digital
-Converter (ADC). That is, if the ADC is 12 bit, digitisation is 4096 (2^12).
-* `range`: As reported in fast5 file. The full scale measurement range in pico amperes.
-* `offset`: As reported in fast5 file. The ADC offset error. This value is added when converting the signal to pico ampere.
-* `adapter_signal`: The extracted adapter signal in integer16 format.
-
 ## Run tests
 
-Running tests requires installing `pytest` and `cython`.
+To run tests, you need to install `pytest` and `cython`. You can run the following commands:
 
 ```
 cd ADAPT
