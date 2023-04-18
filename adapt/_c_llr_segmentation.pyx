@@ -54,7 +54,7 @@ def _best_split(DTYPE_INT_t start,
 	cdef DTYPE_t var_summed_tail
 	cdef DTYPE_t gain
 	cdef DTYPE_t split_gain = 0.
-	cdef DTYPE_INT_t x = 0
+	cdef DTYPE_INT_t x = -1
 	cdef DTYPE_INT_t i
 	
 	var_summed = ( end-start ) * log( var_c( start, end, c, c2))
@@ -110,6 +110,17 @@ def c_llr_detect_adapter(np.ndarray[DTYPE_t] raw_signal,
 	x_head, gain_head = _best_split(0, x_first, c, c2, border_trim, min_obs_adapter)
 	x_tail, gain_tail = _best_split(x_first, length, c, c2, min_obs_adapter, border_trim)
 
+	if x_first == -1:
+		# empty signal
+		return 0,0
+	if x_head == -1:
+		#x_first - border_trim - min_obs_adapter == 0
+		x_head = 1
+	if x_tail == -1:
+		#(length - x_first) - border_trim - min_obs_adapter == 0
+		x_tail = x_first+1
+
+		
 	cdef np.ndarray[DTYPE_t] medians = np.zeros(4)
 	medians[0] = np.median(raw_signal[:x_head])
 	medians[1] = np.median(raw_signal[x_head: x_first])
