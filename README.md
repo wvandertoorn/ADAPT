@@ -1,7 +1,6 @@
-
 # ADAPT - Adapter Detection and Processing Tool
 
-ADAPT is a software tool that detects and processes DNA adapters in dRNA-seq data. The tool offers two options for processing the adapters: it can extract the adapter signal from the read or trim the adapter signal from the read to improve data quality and increase the accuracy of downstream analyses.
+ADAPT is a software tool that detects and processes DNA adapters in dRNA-seq data. The tool offers two options for processing the adapters: it can extract the adapter signal from the read for adapter-based demultiplexing or trim the adapter signal from the read to improve data quality and increase the accuracy of downstream analyses.
 
 ## Installation
 
@@ -85,8 +84,6 @@ The following optional argument can be used in the `trim` mode:
                       detected boundary. The default value is 500.
 ```
 
-In the trim mode, the output directory will contain modified copies of the input fast5 files. Reads for which no adapter was detected are removed from the multi fast5 files, and no file is created in the case of single fast5 files.
-
 To get a full overview of the `trim` mode, run:
 
 ```
@@ -137,15 +134,18 @@ rel_filepath;read_id;adapter_start;adapter_end
 
 ### trim
 
-In mode `trim`, the output directory contains modified copies of the input fast5 files in which the adapter signal is trimmed off. In this case, the output directory can be directly used as the input path of the basecaller. For multi fast5 files, reads for which no adapter was detected are removed. For single fast5 files, no file is created.
+In the `trim` mode, the output directory will contain modified copies of the input fast5 files. The raw signal data set and duration attribute are modified to trim off the adapter signal, the rest of the datasets and attributes are left unchanged. Reads for which no adapter was detected are removed from the output multi fast5 files, and no file is created in the case of no detected adapter in single fast5 files. Please use the `detected_adapter_boundaries_[FILENAME].csv` file to identify such reads.
+
+After running the `trim` mode, the `save_path` directory can be directly used as the input path of the basecaller.
 
 ### extract
 
 In mode `extract`, semicolon-separated `extracted_adapter_[FILENAME].csv` files are created in the output directory.
 
-This file contains the extracted adapter signal per read in integer16 format, as well as the relevant signal parameters to transform the extracted signal to pA using `raw_pA = np.array(parange / digitisation * (raw_int + offset), dtype=np.float32)`.
+This file contains the extracted adapter signal per read in integer16 format, as well as the relevant signal parameters to transform this signal to pico ampere.
+The formula for signal conversion from integer16 to pico ampere format is: `raw_pA = np.array(range / digitisation * (raw_int + offset), dtype=np.float32)`.
 
-The file contains the following columns:
+The `extracted_adapter_[FILENAME].csv` file contains the following columns:
 
 * `rel_filepath`:  the relative filepath of the fast5 file with respect to `input_path`.
 * `read_id`: the read IDs of the entries in the fast5 file.
@@ -156,7 +156,7 @@ Converter (ADC). That is, if the ADC is 12 bit, digitisation is 4096 (2^12).
 * `offset`: as reported in fast5 file. The ADC offset error. This value is added when converting the signal to pico ampere.
 * `adapter_signal`: the extracted adapter signal in integer16 format.
 
-Reads for which no adapter was detected are excluded in this file.
+Reads for which no adapter was detected are excluded in this output file.
 
 An example of `extracted_adapter_[FILENAME].csv` :
 
@@ -171,8 +171,8 @@ rel_filepath;read_id;extraction_buffer;digitisation;range;offset;adapter_signal
 To run tests, you need to install `pytest` and `cython`. You can run the following commands:
 
 ```
-cd ADAPT
 pip install pytest cython
+cd ADAPT
 CC=gcc python setup.py build_ext --inplace
 pytest
 ```
