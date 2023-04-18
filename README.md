@@ -4,7 +4,14 @@ ADAPT is a software tool that detects and processes DNA adapters in dRNA-seq dat
 
 ## Installation
 
-To install ADAPT, Python 3.8 must be installed first. Then, run the following command:
+To install ADAPT, Python 3.8 must be installed first. To do so, you can run the following commands:
+
+```
+conda create -n ADAPT -y python=3.8
+conda activate ADAPT
+```
+
+Then, to install ADAPT, run the following commands:
 
 ```
 git clone https://github.com/wvandertoorn/ADAPT.git
