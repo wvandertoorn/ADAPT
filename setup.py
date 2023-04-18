@@ -31,7 +31,7 @@ setup(
     name = "ADAPT",
     version = VERSION,
     packages = ['adapt'],
-    install_requires = ['numpy', 'ont-fast5-api>=4', 'pandas', 'setuptools'],
+    install_requires = ['numpy', 'ont-fast5-api>=4', 'pandas',],
     author = "Wiep van der Toorn",
     author_email = "w.vandertoorn@fu-berlin.de",
     description='Adapter detection in direct RNA sequencing reads.',
