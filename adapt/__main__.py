@@ -91,9 +91,6 @@ def main(args=None):
         )
         mp_map_fn = lambda pool_obj: pool_obj.map
 
-    print(process_call)
-    print(process_args)
-
     if len(process_args) > 1:
         with Pool(args.j) as p:
             res = mp_map_fn(p)(
