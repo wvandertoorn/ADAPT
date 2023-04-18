@@ -35,7 +35,7 @@ setup(
     author = "Wiep van der Toorn",
     author_email = "w.vandertoorn@fu-berlin.de",
     description='Adapter detection in direct RNA sequencing reads.',
-    # license = "mpl-2.0",
+    license = "CC BY-SA 4.0",
     keywords = "dRNA-seq nanopore adapter correction",
     url = "https://github.com/wvandertoorn/ADAPT",
     entry_points={
