@@ -131,6 +131,30 @@ def test_main_trim_multi_f5_single_file():
     os.rmdir(f"{test_data}/tmp")
 
 
+def test_main_trim_mixed_multi_file():
+    args = "trim " + f"--input_path {test_data} " + f"--save_path {test_data}/tmp "
+
+    args = [x for x in args.split(" ") if len(x)]
+    main(args)
+
+    os.remove(f"{test_data}/tmp/detected_adapter_boundaries_read0.csv")
+    os.remove(f"{test_data}/tmp/detected_adapter_boundaries_batch0.csv")
+    os.remove(f"{test_data}/tmp/read0.fast5")
+    os.remove(f"{test_data}/tmp/batch0.fast5")
+    os.rmdir(f"{test_data}/tmp")
+
+
+def test_main_trim_no_file():
+    args = (
+        "trim " + f"--input_path {test_data}/empty " + f"--save_path {test_data}/tmp "
+    )
+
+    args = [x for x in args.split(" ") if len(x)]
+    with pytest.raises(ValueError):
+        main(args)
+    os.rmdir(f"{test_data}/tmp")
+
+
 def test_main_extract_single_f5_single_file():
     args = (
         "extract "
