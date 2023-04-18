@@ -15,7 +15,8 @@ import pandas as pd
 
 from .detect import detect_adapter_in_read
 from .extract import extract_adapter_from_read
-from .io import copy_and_process_fast5_file, process_fast5_file, write_results_to_csv
+from .io import (copy_and_process_fast5_file, process_fast5_file,
+                 write_results_to_csv)
 from .parser import parser
 from .trim import trim_adapter_from_read
 

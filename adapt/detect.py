@@ -9,6 +9,7 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 from typing import List
 
 import numpy as np
+
 from ont_fast5_api.fast5_read import Fast5Read
 
 from ._c_llr_segmentation import c_llr_detect_adapter

@@ -7,8 +7,8 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 
 import os
 import shutil
-import pytest
 
+import pytest
 from adapt.__main__ import main
 
 test_data = os.path.join(os.path.dirname(__file__), "data")

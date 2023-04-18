@@ -7,7 +7,6 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 
 
 import numpy as np
-
 from adapt.normalize import normalize_signal
 
 

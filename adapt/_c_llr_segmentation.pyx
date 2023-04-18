@@ -13,8 +13,8 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 cimport cython
 
 import numpy as np
-cimport numpy as np
 
+cimport numpy as np
 from libc.math cimport log
 
 DTYPE = np.float64

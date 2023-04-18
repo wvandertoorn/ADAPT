@@ -6,7 +6,9 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 """
 
 import os
+
 from adapt.extract import extract_adapter_from_read
+
 from ont_fast5_api.fast5_interface import get_fast5_file
 
 test_data = os.path.join(os.path.dirname(__file__), "data")

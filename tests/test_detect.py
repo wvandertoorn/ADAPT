@@ -6,7 +6,6 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 """
 
 import numpy as np
-
 from adapt.detect import detect_adapter_in_signal
 
 

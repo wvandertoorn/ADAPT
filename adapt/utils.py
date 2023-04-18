@@ -6,8 +6,8 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 """
 
 
-from typing import List
 from collections import namedtuple
+from typing import List
 
 import pandas as pd
 

@@ -7,9 +7,10 @@ Copyright (c) 2023 Wiep K. van der Toorn (w.vandertoorn@fu-berlin.de)
 
 import os
 import shutil
-from ont_fast5_api.fast5_interface import get_fast5_file
 
 from adapt.io import remove_reads_from_fast5
+
+from ont_fast5_api.fast5_interface import get_fast5_file
 
 test_data = os.path.join(os.path.dirname(__file__), "data")
 

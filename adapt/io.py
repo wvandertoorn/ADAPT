@@ -10,9 +10,10 @@ import shutil
 from typing import Callable, List
 
 import pandas as pd
+
 from ont_fast5_api.fast5_interface import get_fast5_file, is_multi_read
 
-from .utils import processResults, detect_results_to_df, extract_results_to_df
+from .utils import detect_results_to_df, extract_results_to_df, processResults
 
 
 def process_fast5_file(
