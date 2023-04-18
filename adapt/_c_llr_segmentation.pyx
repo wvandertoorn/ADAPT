@@ -24,10 +24,17 @@ DTYPE_INT = np.int64
 ctypedef np.int64_t DTYPE_INT_t
 
 # Calculate the variance of a segment of signal, given cumsum and cumsum of squared signal.
-# adapted from https://github.com/jmschrei/PyPore/blob/master/PyPore/cparsers.pyx
 @cython.boundscheck(False)
 cdef inline double var_c(DTYPE_INT_t start, DTYPE_INT_t end, 
-						 np.ndarray[DTYPE_t] c, np.ndarray[DTYPE_t] c2):
+						 DTYPE_t[:] c, DTYPE_t[:] c2):
+	"""
+	Adapted from https://github.com/jmschrei/PyPore/blob/master/PyPore/cparsers.pyx
+
+	The MIT License (MIT)
+
+	Copyright (c) 2014 jmschrei
+	"""
+	
 	if start == end:
 		return 0
 	if start == 0:
