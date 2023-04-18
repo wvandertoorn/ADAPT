@@ -15,7 +15,6 @@ test_data = os.path.join(os.path.dirname(__file__), "data")
 
 
 def test_remove_reads_from_fast5_single():
-
     f5path = os.path.join(test_data, "read0.fast5")
     f5path_trim = f5path + ".tmp"
     shutil.copy(f5path, f5path_trim)
@@ -31,7 +30,6 @@ def test_remove_reads_from_fast5_single():
 
 
 def test_remove_reads_from_fast5_multi():
-
     f5path = os.path.join(test_data, "batch0.fast5")
     f5path_trim = f5path + ".tmp"
     shutil.copy(f5path, f5path_trim)

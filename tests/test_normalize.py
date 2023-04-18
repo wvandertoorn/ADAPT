@@ -38,4 +38,3 @@ def test_windsorizing():
 
     assert (norm_med <= upper_lim).all()
     assert (norm_med >= lower_lim).all()
-

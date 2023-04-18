@@ -13,7 +13,10 @@ from .utils import extractResults
 
 
 def extract_signal_slice_from_read(
-    read: Fast5Read, start: int, stop: int, extract_buffer: int = 0,
+    read: Fast5Read,
+    start: int,
+    stop: int,
+    extract_buffer: int = 0,
 ):
     """Extract a slice of signal from the raw signal attribute of a fast5 read.
 
@@ -32,7 +35,7 @@ def extract_signal_slice_from_read(
     -------
     np.ndarray
         Slice of signal
-    """    
+    """
     signal = read.get_raw_data(scale=False)
     slice_start = max(0, start - extract_buffer)
     slice_stop = min(signal.size, stop + extract_buffer)
@@ -40,7 +43,10 @@ def extract_signal_slice_from_read(
     return signal[slice_start:slice_stop]
 
 
-def extract_adapter_from_read(read: Fast5Read, extract_buffer: int = 100,) -> extractResults:
+def extract_adapter_from_read(
+    read: Fast5Read,
+    extract_buffer: int = 100,
+) -> extractResults:
     """Extract adapter signal from read entry.
 
     Parameters
@@ -56,7 +62,9 @@ def extract_adapter_from_read(read: Fast5Read, extract_buffer: int = 100,) -> ex
         Wrapper class containing all relevant results
     """
     start, stop = detect_adapter_in_read(read)
-    adapter_signal = extract_signal_slice_from_read(read, start, stop, extract_buffer=extract_buffer)
+    adapter_signal = extract_signal_slice_from_read(
+        read, start, stop, extract_buffer=extract_buffer
+    )
 
     channel_info = read.get_channel_info()
 
@@ -69,4 +77,3 @@ def extract_adapter_from_read(read: Fast5Read, extract_buffer: int = 100,) -> ex
         offset=channel_info["offset"],
         adapter_signal=adapter_signal,
     )
-

@@ -45,7 +45,7 @@ subset_group.add_argument(
     "--fast5_subset_txt",
     type=str,
     help="Path to a txt file containing a list of fast5 file names (one per line) "
-    "describing a subset of the fast5 files present in `input_path`."
+    "describing a subset of the fast5 files present in `input_path`.",
 )
 
 subset_group.add_argument(
@@ -53,7 +53,7 @@ subset_group.add_argument(
     type=str,
     nargs="+",
     help="A space-separated list of fast5 file names describing a subset of the fast5 "
-    "files present in `input_path`."
+    "files present in `input_path`.",
 )
 
 parent_parser.add_argument(

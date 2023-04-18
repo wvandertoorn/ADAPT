@@ -13,7 +13,7 @@ from .detect import detect_adapter_in_read, detectResults
 def slice_signal_in_read(read: Fast5Read, start: int = 0, stop: int = -1) -> None:
     """Modify the raw dataset group of a Fast5Read object.
     The raw data signal is changed to the slice signal[start:stop], the
-    duration attribute is changed accordingly. 
+    duration attribute is changed accordingly.
 
     Parameters
     ----------
@@ -36,11 +36,13 @@ def slice_signal_in_read(read: Fast5Read, start: int = 0, stop: int = -1) -> Non
     read.add_raw_data(signal[slice_start:slice_stop], attrs)
 
 
-def trim_adapter_from_read(read: Fast5Read, buffer: int = 100,) -> detectResults:
-
+def trim_adapter_from_read(
+    read: Fast5Read,
+    buffer: int = 100,
+) -> detectResults:
     """Detect and trim the adapter signal from a read.
     The raw signal dataset of the read is changed to the slice `signal[adapter_end - buffer :]`, the
-    duration attribute of the raw data group is changed accordingly. 
+    duration attribute of the raw data group is changed accordingly.
 
     Parameters
     ----------

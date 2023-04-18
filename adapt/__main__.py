@@ -50,43 +50,46 @@ def main(args=None):
 
     # execute different modes
     if args.mode == "trim":
-        
         trim_kwargs = {"buffer": args.trimming_buffer}
-        
+
         files_df["dst"] = files_df.src.apply(
             lambda x: x.replace(args.input_path, args.save_path)
         )
 
         process_args = files_df[["src", "dst"]].values.tolist()
         process_call = partial(
-            copy_and_process_fast5_file, process_fn=trim_adapter_from_read,
+            copy_and_process_fast5_file,
+            process_fn=trim_adapter_from_read,
             process_kwargs=trim_kwargs,
         )
         mp_map_fn = lambda pool_obj: pool_obj.starmap
 
     elif args.mode == "detect":
         detect_kwargs = {
-        "max_obs": args.max_obs,
-        "min_obs_adapter": args.min_obs_adapter,
-        "border_trim": args.border_trim,
+            "max_obs": args.max_obs,
+            "min_obs_adapter": args.min_obs_adapter,
+            "border_trim": args.border_trim,
         }
-            
+
         process_args = files_df["src"].values.tolist()
         process_call = partial(
-            process_fast5_file, mode="r", process_fn=detect_adapter_in_read,
+            process_fast5_file,
+            mode="r",
+            process_fn=detect_adapter_in_read,
             process_kwargs=detect_kwargs,
         )
         mp_map_fn = lambda pool_obj: pool_obj.map
 
     else:  # "extract"
-        
         extract_kwargs = {
             "extract_buffer": args.extraction_buffer,
         }
-            
+
         process_args = files_df["src"].values.tolist()
         process_call = partial(
-            process_fast5_file, mode="r", process_fn=extract_adapter_from_read,
+            process_fast5_file,
+            mode="r",
+            process_fn=extract_adapter_from_read,
             process_kwargs=extract_kwargs,
         )
         mp_map_fn = lambda pool_obj: pool_obj.map
