@@ -44,16 +44,16 @@ subset_group = parent_parser.add_mutually_exclusive_group()
 subset_group.add_argument(
     "--fast5_subset_txt",
     type=str,
-    help="Path to txt file containing entries `XYZ.fast5` (one per line) describing "
-    "a subset of the fast5 files present in `input_path`.",
+    help="Path to a txt file containing a list of fast5 file names (one per line) "
+    "describing a subset of the fast5 files present in `input_path`."
 )
 
 subset_group.add_argument(
     "--fast5_subset",
     type=str,
     nargs="+",
-    help="Filenames '`XYZ.fast5` ...' describing "
-    "a subset of the fast5 files present in `input_path`.",
+    help="A space-separated list of fast5 file names describing a subset of the fast5 "
+    "files present in `input_path`."
 )
 
 parent_parser.add_argument(
@@ -83,19 +83,21 @@ parser_detect.add_argument(
     "--max_obs",
     type=int,
     default=40000,
-    help="Look for adapter in first `max_obs` data points of the raw signal. Dafult value of 40000 taken from default params in Tombo.",
+    help="Look for adapter in first `max_obs` data points of the raw signal. The default value is 40000, taken from default params in Tombo.",
 )
 parser_detect.add_argument(
     "--min_obs_adapter",
     type=int,
     default=1000,
-    help="Minimal length of the adapter signal, by default 1000",
+    help="Set the minimum length of the adapter signal. The default value is 1000.",
 )
 parser_detect.add_argument(
     "--border_trim",
     type=int,
     default=500,
-    help="Ignore outer `border_trim` data points, a boundary can be detected between `border_trim` and `max_obs`-`border_trim` observations, by default 500",
+    help="Ignore the outer `border_trim` data points. A boundary can be detected "
+    "between `border_trim` and `max_obs`-`border_trim` observations. "
+    "The default value is 500.",
 )
 
 # trim
@@ -108,7 +110,8 @@ parser_trim.add_argument(
     "--trimming_buffer",
     type=int,
     default=500,
-    help="Trimming buffer, retain `trimming_buffer` number of DNA observation prior to the detected boundary, by default 500.",
+    help="Retain `trimming_buffer` number of DNA observation prior to the "
+    "detected boundary. The default value is 500.",
 )
 
 # extract
@@ -122,5 +125,5 @@ parser_extract.add_argument(
     "--extraction_buffer",
     type=int,
     default=100,
-    help="Extraction buffer, include `extraction_buffer` number of observation before and after the detected adapter signal, by default 100.",
+    help="Include `extraction_buffer` number of observation before and after the detected adapter signal. The default value is 100.",
 )
