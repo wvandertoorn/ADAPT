@@ -52,10 +52,10 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Science/Research',
         'Natural Language :: English',
-        # 'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython,'
         'Topic :: Scientific/Engineering :: Bio-Informatics',
+        'Typing :: Typed',
     ]
 )
