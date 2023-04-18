@@ -147,12 +147,12 @@ After running the `trim` mode, the `save_path` directory can be directly used as
 
 ### extract
 
-In mode `extract`, semicolon-separated `extracted_adapter_[FILENAME].csv` files are created in the output directory.
+In mode `extract`, semicolon-separated `extracted_adapters_[FILENAME].csv` files are created in the output directory.
 
 This file contains the extracted adapter signal per read in integer16 format, as well as the relevant signal parameters to transform this signal to pico ampere.
 The formula for signal conversion from integer16 to pico ampere format is: `raw_pA = np.array(range / digitisation * (raw_int + offset), dtype=np.float32)`.
 
-The `extracted_adapter_[FILENAME].csv` file contains the following columns:
+The `extracted_adapters_[FILENAME].csv` file contains the following columns:
 
 * `rel_filepath`:  the relative filepath of the fast5 file with respect to `input_path`.
 * `read_id`: the read IDs of the entries in the fast5 file.
@@ -165,12 +165,19 @@ Converter (ADC). That is, if the ADC is 12 bit, digitisation is 4096 (2^12).
 
 Reads for which no adapter was detected are excluded in this output file.
 
-An example of `extracted_adapter_[FILENAME].csv` :
+An example of `extracted_adapters_[FILENAME].csv` :
 
 ```{csv}
 rel_filepath;read_id;extraction_buffer;digitisation;range;offset;adapter_signal
 /read0.fast5;0a3bcebd-b594-4a10-8c5c-fa1b75ced59a;100;8192.0;1194.820068359375;4.0;[784, 790, 839, 798, 814, 785, 753 ... ]
 ...
+```
+
+To read in this file from disk for further analysis, you can use the following commands:
+
+```
+import pandas as pd
+pd.read_csv("path/to/save_dir/extracted_adapters_[FILENAME].csv", sep=';',  converters={'adapter_signal': pd.eval})
 ```
 
 ## Run tests
