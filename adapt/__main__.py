@@ -62,7 +62,7 @@ def main(args=None):
             copy_and_process_fast5_file, process_fn=trim_adapter_from_read,
             process_kwargs=trim_kwargs,
         )
-        mp_map_fn = lambda pool_obj: pool_obj.startmap
+        mp_map_fn = lambda pool_obj: pool_obj.starmap
 
     elif args.mode == "detect":
         detect_kwargs = {
