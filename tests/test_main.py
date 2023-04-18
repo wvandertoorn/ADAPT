@@ -160,15 +160,3 @@ def test_main_extract_multi_f5_single_file():
     os.remove(f"{test_data}/tmp/detected_adapter_boundaries_batch0.csv")
     os.remove(f"{test_data}/tmp/extracted_adapters_batch0.csv")
     os.rmdir(f"{test_data}/tmp")
-
-if __name__ == "__main__":
-    test_main_detect_single_f5_single_file()
-    test_main_detect_multi_f5_single_file()
-    test_main_detect_mixed_multi_file()
-    test_main_detect_no_file()
-    test_main_detect_global_output_csv()
-    test_main_detect_fast5_subset_txt()
-    test_main_trim_single_f5_single_file()
-    test_main_trim_multi_f5_single_file()
-    test_main_extract_single_f5_single_file()
-    test_main_extract_multi_f5_single_file()

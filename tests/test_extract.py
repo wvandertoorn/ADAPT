@@ -43,7 +43,3 @@ def test_extract_adapter_single():
     assert res.digitisation == 8192.0
     assert res.offset == 4.0
     assert res.pA_range == 1194.820068359375
-
-
-if __name__ == "__main__":
-    test_extract_adapter_multi()
