@@ -109,9 +109,9 @@ parser_trim = subparsers.add_parser(
 parser_trim.add_argument(
     "--trimming_buffer",
     type=int,
-    default=500,
+    default=100,
     help="Retain `trimming_buffer` number of DNA observation prior to the "
-    "detected boundary. The default value is 500.",
+    "detected boundary. The default value is 100.",
 )
 
 # extract
