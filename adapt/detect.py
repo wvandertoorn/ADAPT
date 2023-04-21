@@ -28,7 +28,7 @@ def detect_adapter_in_signal(
     Parameters
     ----------
     signal : np.ndarray
-        One-dimensional numpy array representation of dRNA signal.
+        One-dimensional numpy array representation of dRNA signal. Should be of dtype np.float64.
     max_obs : int, optional
         Look for adapter in first `max_obs` data points of the raw signal. Value taken from default params in Tombo, by default 40000
     min_obs_adapter : int, optional
