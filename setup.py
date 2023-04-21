@@ -34,7 +34,7 @@ setup(
     version=VERSION,
     packages=["adapt"],
     install_requires=[
-        "numpy",
+        "numpy==1.22",
         "ont-fast5-api>=4",
         "pandas",
     ],
